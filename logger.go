@@ -7,6 +7,11 @@ import (
 	"github.com/axpira/gop/log"
 )
 
+var levelHook = map[log.Level]func(){
+	log.PanicLevel: func() { panic("") },
+	log.FatalLevel: func() { os.Exit(1) },
+}
+
 func init() {
 	log.DefaultLogger = New()
 }
@@ -75,6 +80,9 @@ func (l *logger) With(opts ...log.LoggerOption) log.Logger {
 }
 
 func (l *logger) Log(lv log.Level, fieldBuilder log.FieldBuilder) {
+	if fn, ok := levelHook[lv]; ok {
+		defer fn()
+	}
 	if !l.HasLevel(lv) || fieldBuilder == emptyFieldPtr {
 		if fieldBuilder != emptyFieldPtr {
 			putField(fieldBuilder.(*field))

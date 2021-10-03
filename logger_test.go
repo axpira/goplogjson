@@ -153,51 +153,50 @@ func TestMustLogCorrectLevel(t *testing.T) {
 		denyLevels    []log.Level
 	}{
 		{
-			loggerLevel: log.DisabledLevel,
-			denyLevels:  []log.Level{log.DisabledLevel, log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel, log.NoLevel},
+			loggerLevel:   log.NoLevel,
+			allowedLevels: []log.Level{log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel},
 		},
 		{
 			loggerLevel:   log.TraceLevel,
-			allowedLevels: []log.Level{log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel, log.NoLevel},
-			denyLevels:    []log.Level{log.DisabledLevel},
+			allowedLevels: []log.Level{log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel},
 		},
 		{
 			loggerLevel:   log.DebugLevel,
-			allowedLevels: []log.Level{log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel, log.NoLevel},
-			denyLevels:    []log.Level{log.DisabledLevel, log.TraceLevel},
+			allowedLevels: []log.Level{log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel},
+			denyLevels:    []log.Level{log.TraceLevel},
 		},
 		{
 			loggerLevel:   log.InfoLevel,
-			allowedLevels: []log.Level{log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel, log.NoLevel},
-			denyLevels:    []log.Level{log.DisabledLevel, log.TraceLevel, log.DebugLevel},
+			allowedLevels: []log.Level{log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel},
+			denyLevels:    []log.Level{log.TraceLevel, log.DebugLevel},
 		},
 		{
 			loggerLevel:   log.WarnLevel,
-			allowedLevels: []log.Level{log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel, log.NoLevel},
-			denyLevels:    []log.Level{log.DisabledLevel, log.TraceLevel, log.DebugLevel, log.InfoLevel},
+			allowedLevels: []log.Level{log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel},
+			denyLevels:    []log.Level{log.TraceLevel, log.DebugLevel, log.InfoLevel},
 		},
 		{
 			loggerLevel:   log.ErrorLevel,
-			allowedLevels: []log.Level{log.ErrorLevel, log.FatalLevel, log.PanicLevel, log.NoLevel},
-			denyLevels:    []log.Level{log.DisabledLevel, log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel},
+			allowedLevels: []log.Level{log.ErrorLevel, log.FatalLevel, log.PanicLevel},
+			denyLevels:    []log.Level{log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel},
 		},
 		{
 			loggerLevel:   log.FatalLevel,
-			allowedLevels: []log.Level{log.FatalLevel, log.PanicLevel, log.NoLevel},
-			denyLevels:    []log.Level{log.DisabledLevel, log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel},
+			allowedLevels: []log.Level{log.FatalLevel, log.PanicLevel},
+			denyLevels:    []log.Level{log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel},
 		},
 		{
 			loggerLevel:   log.PanicLevel,
-			allowedLevels: []log.Level{log.PanicLevel, log.NoLevel},
-			denyLevels:    []log.Level{log.DisabledLevel, log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel},
+			allowedLevels: []log.Level{log.PanicLevel},
+			denyLevels:    []log.Level{log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel},
 		},
 		{
-			loggerLevel:   log.NoLevel,
-			allowedLevels: []log.Level{log.NoLevel},
-			denyLevels:    []log.Level{log.DisabledLevel, log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel},
+			loggerLevel: log.DisabledLevel,
+			denyLevels:  []log.Level{log.TraceLevel, log.DebugLevel, log.InfoLevel, log.WarnLevel, log.ErrorLevel, log.FatalLevel, log.PanicLevel},
 		},
 	}
 
+	levelHook = nil
 	for _, tc := range tests {
 		for _, denyLevel := range tc.denyLevels {
 			out := new(strings.Builder)

@@ -1,2 +1,2 @@
-github.com/axpira/gop v0.1.1 h1:McojhJmlEWkC2x7345eec/WbRa242G2V0mT6XwzQGqs=
-github.com/axpira/gop v0.1.1/go.mod h1:hr0ftV3pB7wfh6CkQjF+xgMHzyMP5C93FK8jjKcAyto=
+github.com/axpira/gop/log v0.0.0-20211006225547-40bdd36337c1 h1:UdNSKkMYkUYMxNmTnmrmVIe1fhG5rocg4bvSpXt642U=
+github.com/axpira/gop/log v0.0.0-20211006225547-40bdd36337c1/go.mod h1:sOjGE1BN++LLDdWBXi9Y/mH4y8LUMvu2LJRvslsF6xE=

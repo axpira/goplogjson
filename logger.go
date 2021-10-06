@@ -1,6 +1,7 @@
 package goplogjson
 
 import (
+	"fmt"
 	"io"
 	"os"
 
@@ -177,4 +178,21 @@ func (l *logger) Panic(msg string) {
 
 func (l *logger) Panicf(format string, args ...interface{}) {
 	l.Log(log.PanicLevel, l.NewFieldBuilder().Msgf(format, args...))
+}
+
+func (l *logger) Print(args ...interface{}) {
+	l.Log(log.InfoLevel, l.NewFieldBuilder().Msg(fmt.Sprint(args...)))
+}
+
+func (l *logger) Println(args ...interface{}) {
+	l.Log(log.InfoLevel, l.NewFieldBuilder().Msg(fmt.Sprint(args...)))
+}
+
+func (l *logger) Printf(format string, args ...interface{}) {
+	l.Log(log.InfoLevel, l.NewFieldBuilder().Msgf(format, args...))
+}
+
+func (l *logger) Write(msg []byte) (int, error) {
+	l.Log(log.InfoLevel, l.NewFieldBuilder().Msg(string(msg)))
+	return 0, nil
 }

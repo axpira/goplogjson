@@ -12,8 +12,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 
 <!-- PROJECT LOGO -->
@@ -94,76 +92,11 @@ go get -u github.com/axpira/goplogjson
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-### Simple Log
+Just import in your project and use [GOP Log](https://github.com/axpira/gop), and the output log will be a JSON
 ```go
-package main
-
 import (
-	"github.com/axpira/gop/log"
 	_ "github.com/axpira/goplogjson"
 )
-
-func main() {
-	log.Info("Hello World")
-}
-
-// Output: {"msg":"Hello World","level":"info","time":"2021-09-29T07:43:34-03:00"}
-```
-
-### Add fields to log
-```go
-package main
-
-import (
-	"github.com/axpira/gop/log"
-	_ "github.com/axpira/goplogjson"
-)
-
-func main() {
-	log.Inf(log.
-		Str("str_field", "hello").
-		Int("int_field", 42).
-		Msg("Hello World"),
-	)
-}
-// Output: {"str_field":"hello","int_field":42,"msg":"Hello World","level":"info","time":"2021-09-29T07:46:12-03:00"}
-```
-
-### Leveled logging
-```go
-package main
-
-import (
-	"errors"
-
-	"github.com/axpira/gop/log"
-	_ "github.com/axpira/goplogjson"
-)
-
-func main() {
-	log.Error("Hello World", errors.New("unknown error"))
-}
-// Output: {"msg":"Hello World","err":"unknown error","level":"error","time":"2021-10-07T20:54:13-03:00"}
-```
-
-### Other Leveled logging
-```go
-package main
-
-import (
-	"errors"
-
-	"github.com/axpira/gop/log"
-	_ "github.com/axpira/goplogjson"
-)
-
-func main() {
-	log.Log(
-		log.ErrorLevel,
-		log.Msg("Hello World").Err(errors.New("unknown error")),
-	)
-
-// Output: {"msg":"Hello World","err":"unknown error","level":"error","time":"2021-10-07T21:00:32-03:00"}
 ```
 
 ### Customize
@@ -194,7 +127,7 @@ func main() {
 // Output: {"mymessage":"Hello World","myfielderr":"unknown error","mygreatlevel":"error"}
 ```
 
-_For more examples like contextual log, please refer to the [Gop Log](https://github.com/axpira/gop)_
+_For more examples, please refer to the [GOP Log](https://github.com/axpira/gop)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

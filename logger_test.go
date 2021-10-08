@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	now, _        = time.Parse(time.RFC3339, "2021-09-26T10:57:36-03:00")
+	now, _        = time.Parse(time.RFC3339, "2021-09-26T07:57:36Z")
 	dur, _        = time.ParseDuration("1h2m34s")
 	complexString = "\"\b\f\n\r\t"
 )
@@ -22,7 +22,7 @@ func init() {
 	TimestampFunc = func() time.Time {
 		return now
 	}
-	TimeFormat = time.RFC822
+	TimeFormat = time.RFC3339
 }
 
 func TestLoggerFields(t *testing.T) {
@@ -56,7 +56,7 @@ func TestLoggerFields(t *testing.T) {
 			want: `{
 				"key_complex_\"\b\f\n\r\t_str":"\"\b\f\n\r\t",
 				"level":"info",
-				"time":"2021-09-26T10:57:36-03:00",
+				"time":"2021-09-26T07:57:36Z",
 				"str_no_encoding": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 				"str_encoding_first":    "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 				"str_encoding_middle":   "aaaaaaaaaaaaaaaaaaaaaaaaa\"aaaaaaaaaaaaaaaaaaaaaaaa",
@@ -83,7 +83,7 @@ func TestLoggerFields(t *testing.T) {
 			want: `{
 				"key_complex_\"\b\f\n\r\t_bytes":"\"\b\f\n\r\t",
 				"level":"info",
-				"time":"2021-09-26T10:57:36-03:00",
+				"time":"2021-09-26T07:57:36Z",
 				"bytes_no_encoding": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 				"bytes_encoding_first":    "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 				"bytes_encoding_middle":   "aaaaaaaaaaaaaaaaaaaaaaaaa\"aaaaaaaaaaaaaaaaaaaaaaaa",
@@ -217,7 +217,7 @@ func TestMustLogCorrectLevel(t *testing.T) {
 			l := New(WithOutput(out), WithLevel(tc.loggerLevel))
 			fields := l.NewFieldBuilder().Msg("Hello World")
 			l.Log(allowedLevel, fields)
-			want := fmt.Sprintf(`{"level":"%s", "msg":"Hello World", "time":"2021-09-26T10:57:36-03:00"}`, LevelNameFunc(allowedLevel))
+			want := fmt.Sprintf(`{"level":"%s", "msg":"Hello World", "time":"2021-09-26T07:57:36Z"}`, LevelNameFunc(allowedLevel))
 			if diff := compareJson(want, out.String()); diff != "" {
 				t.Errorf(diff)
 			}
@@ -283,7 +283,7 @@ func newFields(l log.Logger, prefix string) log.FieldBuilder {
 		Marshal(prefix+"marshal", "teste").
 		Str(prefix+"str", "value str").
 		Time(prefix+"time", now).
-		Timef(prefix+"timef", now, time.RFC1123).
+		Timef(prefix+"timef", now, time.RFC3339).
 		Uint(prefix+"uint", 42).
 		Uint8(prefix+"uint8", 8).
 		Uint16(prefix+"uint16", 16).
@@ -313,15 +313,15 @@ func createJson(prefix string, level string, dictKey string) string {
 	"%[1]sint64":-64,
 	"%[1]smarshal":"teste",
 	"%[1]sstr":"value str",
-	"%[1]stime":"26 Sep 21 10:57 -03",
-	"%[1]stimef":"Sun, 26 Sep 2021 10:57:36 -03",
+	"%[1]stime":"2021-09-26T07:57:36Z",
+	"%[1]stimef":"2021-09-26T07:57:36Z",
 	"%[1]suint":42,
 	"%[1]suint8":8,
 	"%[1]suint16":16,
 	"%[1]suint32":32,
 	"%[1]suint64":64,
 	"level":"%[2]s",
-	"time":"2021-09-26T10:57:36-03:00",
+	"time":"2021-09-26T07:57:36Z",
 	"%[1]smap_bool":false,
 	"%[1]smap_bytes":"map bytes",
 	"%[1]smap_complex64":"(1+2i)",
@@ -337,7 +337,7 @@ func createJson(prefix string, level string, dictKey string) string {
 	"%[1]smap_int64":-64,
 	"%[1]smarshal":"teste",
 	"%[1]smap_str":"value str",
-	"%[1]smap_time":"26 Sep 21 10:57 -03",
+	"%[1]smap_time":"2021-09-26T07:57:36Z",
 	"%[1]smap_uint":42,
 	"%[1]smap_uint8":8,
 	"%[1]smap_uint16":16,

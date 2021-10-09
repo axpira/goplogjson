@@ -134,7 +134,7 @@ func (f *field) marshalLog(key string, value log.LogMarshaler) log.FieldBuilder 
 	return f.Dict(key, builder)
 }
 
-func (f *field) Any(key string, value interface{}) log.FieldBuilder {
+func (f *field) Interface(key string, value interface{}) log.FieldBuilder {
 	switch v := value.(type) {
 	case string:
 		return f.Str(key, v)
@@ -185,7 +185,7 @@ func (f *field) Any(key string, value interface{}) log.FieldBuilder {
 
 func (f *field) Fields(m map[string]interface{}) log.FieldBuilder {
 	for k, v := range m {
-		f.Any(k, v)
+		f.Interface(k, v)
 	}
 	return f
 }

@@ -45,7 +45,7 @@ func (f *emptyField) Msg(string) log.FieldBuilder {
 	return f
 }
 
-func (f *emptyField) Any(string, interface{}) log.FieldBuilder {
+func (f *emptyField) Interface(string, interface{}) log.FieldBuilder {
 	return f
 }
 

@@ -1,6 +1,7 @@
 package goplogjson
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"time"
 
 	"github.com/axpira/gop/log"
+	fielder "github.com/axpira/gop/log/field"
 )
 
 var (
@@ -105,6 +107,21 @@ func TestLoggerFields(t *testing.T) {
 				t.Errorf(diff)
 			}
 		})
+	}
+}
+
+func TestLoggerContext(t *testing.T) {
+	ctx := context.Background()
+	ctx = New().With(fielder.Str("key", "value").Int("key_int", 42)).ToCtx(ctx)
+
+	out := new(strings.Builder)
+	l := log.FromCtx(ctx).With(WithOutput(out))
+	l.Info("test")
+
+	want := `{"key":"value", "key_int":42, "level":"info", "msg":"test", "time":"2021-09-26T07:57:36Z"}`
+	got := out.String()
+	if diff := compareJson(want, got); diff != "" {
+		t.Errorf(diff)
 	}
 }
 

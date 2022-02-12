@@ -1,11 +1,18 @@
 package goplogjson
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"os"
 
 	"github.com/axpira/gop/log"
+)
+
+type contextKey string
+
+const (
+	loggerContextKey contextKey = "logger"
 )
 
 var levelHook = map[log.Level]func(){
@@ -195,4 +202,16 @@ func (l *logger) Printf(format string, args ...interface{}) {
 func (l *logger) Write(msg []byte) (int, error) {
 	l.Log(log.InfoLevel, l.NewFieldBuilder().Msg(string(msg)))
 	return 0, nil
+}
+
+func (l *logger) FromCtx(ctx context.Context) log.Logger {
+	lg := ctx.Value(loggerContextKey)
+	if lg == nil {
+		return l
+	}
+	return lg.(*logger)
+}
+
+func (l *logger) ToCtx(ctx context.Context) context.Context {
+	return context.WithValue(ctx, loggerContextKey, l)
 }
